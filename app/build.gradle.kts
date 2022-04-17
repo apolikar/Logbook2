@@ -17,6 +17,7 @@ plugins{
 }
 
 // set main class name for the project
+// main class specification is a mandotary for the application plugin
 application {
     mainClass.set("EventCustomerCounter.App")
 }
