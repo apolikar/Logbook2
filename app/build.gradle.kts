@@ -3,7 +3,6 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import com.adarshr.gradle.testlogger.theme.ThemeType
 
 
-
 version = "1.0-SNAPSHOT"
 description = """
 
@@ -11,18 +10,11 @@ description = """
     Project name: ${project.name}
 """
 
-
+// apply plugins for the project
 plugins{
-//    // basic java plugin
-//    java
-//    // java Gradle Core plugin used to build applications
-//    `java-library`
-//    // Community testing plugin for better more customizable test output
     application
     id("com.adarshr.test-logger") version "3.2.0"
 }
-
-
 
 // set main class name for the project
 application {
@@ -32,16 +24,15 @@ application {
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    // generate javadoc
     withJavadocJar()
     withSourcesJar()
 }
 
-
-
+// specify repositories where we get libraries
 repositories{
     mavenCentral()
 }
-
 
 // we can customize test output here
 tasks {
@@ -64,7 +55,6 @@ tasks {
     }
 }
 
-
 /*
 // This is another approach how to get information regarding the passed, failed or skipped tests on clean build
 // it is working, but it is not customizable as using testing plugin
@@ -77,43 +67,17 @@ tasks {
 }
 */
 
-
-
 // set application dependencies
 // TestNG in our case for testing
 dependencies{
     testImplementation("org.testng:testng:7.5")
+    implementation("com.google.guava:guava:31.1-jre")
 }
-
-
-
-// provide source path for main and test folders
-sourceSets {
-    main {
-        java {
-            srcDir("main")
-
-        }
-    }
-    test {
-        java {
-            srcDir(("test"))
-        }
-    }
-}
-
 
 // testing task
 tasks.test{
-
     println("Running Tests")
     useTestNG()
 }
 
-
-
-tasks.register<Javadoc>("createJavadocs") {
-    println("Creating Javadocs...")
-    source(sourceSets["main"].allSource)
-}
 
